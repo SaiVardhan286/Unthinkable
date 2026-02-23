@@ -106,9 +106,15 @@ app = FastAPI(
 )
 
 # ── CORS (allow Flutter / web client) ────────────────────────────────────────
+# In production, we strictly use the configured origins. 
+# and defaults to * only in DEV mode.
+allow_origins = settings.cors_allow_origins
+if settings.env.lower() == "prod" and "*" in allow_origins:
+    logger.warning("CORS_ALLOW_ORIGINS is set to '*' in production. This is NOT recommended.")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -387,7 +393,7 @@ def search(req: SearchRequest, db: Session = Depends(get_db)):
 
 @app.post("/process-voice", tags=["voice"])
 def process_voice(req: VoiceRequest, db: Session = Depends(get_db)):
-    print("[PROCESS-VOICE] Incoming request:", req)
+    logger.info("Processing voice command", extra={"text_length": len(req.text), "language": req.language})
     try:
         parsed = parse_voice_command(req.text, language_hint=req.language)
         search_results: list[dict[str, Any]] = []
@@ -472,9 +478,7 @@ def process_voice(req: VoiceRequest, db: Session = Depends(get_db)):
             "search_results": search_results or [],
         }
     except Exception as e:
-        import traceback
-        tb = traceback.format_exc()
-        print("/process-voice error:", tb)
+        logger.exception("Error in /process-voice", extra={"text": req.text})
         return {
             "success": False,
             "error": {"error_code": "INTERNAL_ERROR", "message": str(e)},
@@ -483,3 +487,9 @@ def process_voice(req: VoiceRequest, db: Session = Depends(get_db)):
             "suggestions": {"previous": [], "seasonal": [], "substitutes": [], "all": []},
             "search_results": [],
         }
+
+if __name__ == "__main__":
+    import os
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=(settings.env.lower() == "dev"))

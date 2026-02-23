@@ -177,7 +177,7 @@ def parse_voice_command(text: str, language_hint: Optional[str] = None) -> Parse
         return parsed
 
     action = detect_intent(text, language)
-    print(f"DEBUG text to filters: {text}")
+    logger.debug("Text to filters", extra={"text": text})
     filters = extract_filters(text)
     
     # We must extract filters BEFORE quantity, otherwise 'cheaper than 4 dollars'
