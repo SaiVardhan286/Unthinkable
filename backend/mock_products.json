@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "name": "Whole Milk 1L",
+    "brand": "DairyPure",
+    "size": "1L",
+    "category": "dairy",
+    "price": 3.49
+  },
+  {
+    "id": 2,
+    "name": "Almond Milk 1L",
+    "brand": "BlueDiamond",
+    "size": "1L",
+    "category": "dairy",
+    "price": 3.99
+  },
+  {
+    "id": 3,
+    "name": "Oat Milk 1L",
+    "brand": "Oatly",
+    "size": "1L",
+    "category": "dairy",
+    "price": 4.59
+  },
+  {
+    "id": 4,
+    "name": "Apples (1kg)",
+    "brand": "FreshFarm",
+    "size": "1kg",
+    "category": "produce",
+    "price": 4.25
+  },
+  {
+    "id": 5,
+    "name": "Bananas (1kg)",
+    "brand": "FreshFarm",
+    "size": "1kg",
+    "category": "produce",
+    "price": 2.90
+  },
+  {
+    "id": 6,
+    "name": "Bottled Water 6-pack",
+    "brand": "AquaPure",
+    "size": "6-pack",
+    "category": "beverages",
+    "price": 4.99
+  },
+  {
+    "id": 7,
+    "name": "Sparkling Water 6-pack",
+    "brand": "Bubbly",
+    "size": "6-pack",
+    "category": "beverages",
+    "price": 5.49
+  },
+  {
+    "id": 8,
+    "name": "Potato Chips 150g",
+    "brand": "CrunchCo",
+    "size": "150g",
+    "category": "snacks",
+    "price": 2.79
+  },
+  {
+    "id": 9,
+    "name": "Granola Bars (8ct)",
+    "brand": "NatureWay",
+    "size": "8-pack",
+    "category": "snacks",
+    "price": 3.89
+  },
+  {
+    "id": 10,
+    "name": "Bread Loaf",
+    "brand": "BakeHouse",
+    "size": "large",
+    "category": "bakery",
+    "price": 2.49
+  },
+  {
+    "id": 11,
+    "name": "Coffee Ground 250g",
+    "brand": "RoastLab",
+    "size": "250g",
+    "category": "beverages",
+    "price": 6.99
+  },
+  {
+    "id": 12,
+    "name": "Rice 1kg",
+    "brand": "PantryBest",
+    "size": "1kg",
+    "category": "pantry",
+    "price": 3.19
+  },
+  {
+    "id": 13,
+    "name": "Colgate Toothpaste",
+    "brand": "Colgate",
+    "size": "medium",
+    "category": "personal care",
+    "price": 3.50
+  },
+  {
+    "id": 14,
+    "name": "Amul Milk",
+    "brand": "Amul",
+    "size": "1L",
+    "category": "dairy",
+    "price": 1.50
+  }
+]

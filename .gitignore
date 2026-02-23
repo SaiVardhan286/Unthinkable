@@ -1,0 +1,77 @@
+# ──────────────────────────────────────────────
+# Python / FastAPI backend
+# ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.env.*
+*.egg-info/
+dist/
+build/
+.eggs/
+*.pth
+
+# Virtual environments (keep OUT of repo)
+.venv/
+venv/
+env/
+ENV/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Databases
+*.db
+*.sqlite3
+
+# Alembic runtime
+backend/alembic/versions/*.pyc
+
+# ──────────────────────────────────────────────
+# Flutter / Dart frontend
+# ──────────────────────────────────────────────
+# Build outputs
+flutter_app/build/
+flutter_app/.dart_tool/
+flutter_app/.flutter-plugins
+flutter_app/.flutter-plugins-dependencies
+
+# Pub cache
+flutter_app/.packages
+flutter_app/pubspec.lock    # keep if you want reproducible builds
+
+# Generated files
+flutter_app/*.g.dart
+flutter_app/**/*.g.dart
+flutter_app/**/*.freezed.dart
+
+# Platform-specific generated code (usually not committed)
+flutter_app/android/.gradle/
+flutter_app/android/local.properties
+flutter_app/android/key.properties
+flutter_app/ios/Pods/
+flutter_app/ios/.symlinks/
+flutter_app/macos/Pods/
+
+# ──────────────────────────────────────────────
+# IDE & OS
+# ──────────────────────────────────────────────
+.idea/
+.vscode/settings.json
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ──────────────────────────────────────────────
+# Model weights & large binary files
+# ──────────────────────────────────────────────
+*.pt
+*.pth
+*.bin
+*.gguf
+whisper_models/
