@@ -1,131 +1,70 @@
-# Voice Command Shopping Assistant
+# 🎙️ Voice Command Shopping Assistant
 
-Production-quality technical assessment project.
+Welcome to the **Voice Command Shopping Assistant**! This project is a production-ready application that lets you manage your shopping list using simple voice commands in both **English** and **Spanish**. 
 
-## Backend (FastAPI + SQLite)
+Whether you're saying *"Add 2 bottles of water"* or *"Busca leche hasta 5"*, this assistant understands your intent, manages your list, and even suggests items based on your shopping habits.
 
-### Folder
-- `backend/`
+---
 
-### Setup + run locally (Windows PowerShell)
+## 🚀 Getting Started
 
-```bash
+The project is split into a **FastAPI backend** and a **Flutter mobile frontend**.
+
+### 1. Backend (FastAPI + SQLite)
+The backend handles the "brains" of the operation—parsing your voice, managing the database, and generating smart recommendations.
+
+**Quick Local Setup:**
+```powershell
 cd backend
 python -m venv .venv
 .\.venv\Scripts\activate
-python -m pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Environment variables (optional)
-- **`CORS_ALLOW_ORIGINS`**: comma-separated list. Default `*`.
-- **`DATABASE_URL`**: default `sqlite:///./unthinkable.db`
-- **`OPENAI_API_KEY`**: enable OpenAI parsing
-- **`ENABLE_OPENAI_PARSER`**: set `true` to enable OpenAI parsing
-- **`OPENAI_MODEL`**: default `gpt-4o-mini`
-
-### Endpoints
-- `POST /process-voice`
-- `POST /search`
-- `GET /recommendations`
-- `GET /items`
-- `DELETE /items/{id}`
-
-### Example requests
-
-```bash
-curl -X POST "http://127.0.0.1:8000/process-voice" ^
-  -H "Content-Type: application/json" ^
-  -d "{\"text\":\"Buy 2 bottles of water\"}"
-```
-
-```bash
-curl -X POST "http://127.0.0.1:8000/process-voice" ^
-  -H "Content-Type: application/json" ^
-  -d "{\"text\":\"Busca leche hasta 5\"}"
-```
-
-## Frontend (Flutter Mobile)
-
-### Folder
-- `frontend/flutter_app/` (core app files)
-
-### Create a runnable Flutter project
-From the repo root:
-
-```bash
-flutter create frontend_app
-```
-
-Then copy/replace:
-- `frontend/flutter_app/pubspec.yaml` → `frontend_app/pubspec.yaml`
-- `frontend/flutter_app/analysis_options.yaml` → `frontend_app/analysis_options.yaml`
-- `frontend/flutter_app/lib/*` → `frontend_app/lib/*`
-
-### Microphone permissions (required)
-In the generated project:
-- **Android**: add `<uses-permission android:name="android.permission.RECORD_AUDIO" />`
-  in `android/app/src/main/AndroidManifest.xml`
-- **iOS**: add `NSMicrophoneUsageDescription` to `ios/Runner/Info.plist`
-
-### Run (emulator)
-Ensure backend is running on port 8000.
-
-- **Android emulator** uses `http://10.0.2.2:8000` (already default in `lib/main.dart`)
-- **iOS simulator** uses `http://127.0.0.1:8000`
-
-```bash
-cd frontend_app
-flutter pub get
-flutter run
-```
-
-### Build APK
-
-```bash
-cd frontend_app
-flutter build apk --release
-```
-
-## Deployment
-
-### Deploy backend to Render
-- Create a new **Web Service**
-- Root directory: `backend`
-- Build command:
-
-```bash
 pip install -r requirements.txt
+uvicorn main:app --reload
 ```
+*The server will start at `http://127.0.0.1:8000`. You can view the API documentation at `/docs`.*
 
-- Start command:
+### 2. Frontend (Flutter)
+The mobile app provides a clean interface to listen to your voice and display your interactive shopping list.
 
-```bash
-uvicorn main:app --host 0.0.0.0 --port $PORT
-```
+**Setting up the Mobile App:**
+1. Create a fresh Flutter project: `flutter create my_shopping_app`
+2. Replace the `lib` folder and `pubspec.yaml` with the ones provided in `frontend/flutter_app/`.
+3. Add the **Microphone Permission**:
+   - **Android**: Add `RECORD_AUDIO` to `AndroidManifest.xml`.
+   - **iOS**: Add `NSMicrophoneUsageDescription` to `Info.plist`.
+4. Run the app: `flutter run`
 
-- Set env:
-  - `CORS_ALLOW_ORIGINS` to your app origins (or `*` for demo)
-  - Optional `DATABASE_URL` (SQLite works, but a persistent disk is recommended)
+---
 
-### Deploy backend to Railway
-- New project → Deploy from repo
-- Service root: `backend`
-- Start command:
+## ✨ Key Features
 
-```bash
-uvicorn main:app --host 0.0.0.0 --port $PORT
-```
+- **Smart Voice Parsing**: A rule-based NLP engine that extracts items, quantities, brands, and price limits without needing external APIs (unless you want to use OpenAI).
+- **Multilingual Support**: Switch seamlessly between English and Spanish.
+- **Intelligent Recommendations**: 
+  - **History-based**: Suggests items you buy frequently.
+  - **Seasonal**: Recommends products based on the current month.
+  - **Substitutes**: Suggests alternatives when an item isn't in stock.
+- **Advanced Search**: Filter your search results by brand or maximum price using just your voice.
 
-### Connect Flutter to deployed backend
-In `frontend/flutter_app/lib/main.dart`, change `baseUrl` (or pass via `--dart-define`):
+---
 
-```bash
-flutter run --dart-define=API_BASE_URL=https://YOUR-DEPLOYED-BACKEND
-```
+## 🛠️ How it Works
 
-## Submission explanation (≈200 words)
+When you send a voice command:
+1. **NLP Pipeline**: The text is analyzed to detect the **Action** (Add, Remove, Search, Modify), the **Item**, and any specific **Filters** (like "under $5").
+2. **Database Tracking**: Items are stored in a local SQLite database using SQLAlchemy.
+3. **Smart Logic**: The system updates your user history with every interaction to make better suggestions next time you open the app.
 
-This project implements a Voice Command Shopping Assistant with a hosting-ready FastAPI backend and a minimalist Flutter mobile UI. The backend exposes endpoints for voice processing, search, shopping list CRUD, and recommendations. Voice commands are parsed into a strict JSON schema (`action`, `item`, `quantity`, `category`, and `filters`) using a rule-based multilingual NLP pipeline (English + Spanish). It supports varied phrasing, quantity extraction (digits and basic number words), brand filters (e.g., “brand X” / “marca X”), and price ceilings (e.g., “under 5” / “hasta 5”). For higher accuracy, an optional OpenAI parser can be enabled via environment variables; if disabled or unavailable the rule-based parser remains fully functional.
+---
 
-Shopping list persistence uses SQLite with SQLAlchemy models and a small, clean module layout (`database.py`, `models.py`, `schemas.py`, `nlp_parser.py`, `recommendation.py`, `main.py`). Smart suggestions are returned with each voice response and include frequency-based items from shopping history, seasonal recommendations based on month, and substitutes via a lightweight mapping dictionary. Voice search uses a mock product dataset (`mock_products.json`) and applies filters server-side. The Flutter client uses `speech_to_text` for live speech recognition and `provider` for state management, showing real-time transcript, loading/error states, the current shopping list, and suggestion chips, providing a simple assessment-ready UX.
+## 🧪 Tech Stack
+
+- **Backend**: FastAPI, SQLAlchemy, Pydantic, Pytest.
+- **Frontend**: Flutter, Provider (State Management), Speech-to-Text.
+- **Database**: SQLite (Small, fast, and zero-config).
+
+---
+
+> [!TIP]
+> **Optional Power-Up**: You can enable high-accuracy OpenAI parsing by setting the `OPENAI_API_KEY` in your environment variables. If not set, the built-in rule-based engine handles everything locally!
+
