@@ -1,107 +1,143 @@
-# 🎙️ Unthinkable: Voice Command Shopping Assistant
+🎙️ Voice Command Shopping Assistant
 
-Welcome to **Unthinkable**, a production-ready, full-stack shopping assistant that simplifies your grocery runs with natural voice commands. Whether you're speaking English or Spanish, Unthinkable understands your intent, manages your list, and offers smart recommendations based on your habits.
+A production-ready full-stack application that allows users to manage their shopping list using natural voice commands in English and Spanish.
 
----
+Users can say:
 
-## 🌐 Live Application
+“Add 2 bottles of water”
+“Remove one milk”
+“Find toothpaste under 50”
+“Busca leche hasta 5”
 
-- **Frontend (Web App):** [👉 PASTE YOUR RENDER URL HERE]
-- **Backend API Docs:** [👉 https://unthinkable-xaut.onrender.com/docs](https://unthinkable-xaut.onrender.com/docs)
+The system intelligently parses the command, updates the shopping list, applies filters, and provides smart recommendations.
 
-> [!IMPORTANT]
-> **Render Free Tier Behavior:** The backend is hosted on a Render Free Tier service. If the app has been inactive for ~15 minutes, the first request may experience a "cold start" delay of 20–40 seconds. Subsequent interactions will be fast.
+🌐 Live Demo
 
----
+Frontend (Main Application):
+👉https://unthinkable-frontend.onrender.com
 
-## ✨ Key Features
+Backend API Docs:
+👉 https://unthinkable-xaut.onrender.com/docs
 
-### 🧠 Smart Voice Parsing
-Our rule-based NLP engine extracts meaningful data from your voice without the need for external APIs:
-- **Intents:** Add, Remove, Search, or Modify items.
-- **Details:** Automatically detects quantities, item names, and brands.
-- **Filters:** Understands price constraints like *"under 50"* or *"hasta 5"*.
+⚠️ Note: The backend is hosted on Render Free Tier.
+If inactive for ~15 minutes, the first request may take 20–40 seconds (cold start).
+Subsequent requests are fast.
 
-### 🛒 Seamless List Management
-- **Voice-First:** Add or remove items hands-free.
-- **Manual Control:** Adjust quantities with simple `+` / `−` buttons.
-- **Categorization:** Automatically organizes items into logical groups.
+🏗️ Project Structure
 
-### 🔎 Advanced Search
-Filter results using natural language:
-- *"Find organic apples"*
-- *"Search milk under 30"*
-- *"Busca Colgate hasta 50"*
-
-### 💡 Intelligent Recommendations
-Stay ahead of your needs with three types of smart suggestions:
-- **History-Based:** Suggests items you buy frequently.
-- **Seasonal:** Recommends products based on the current month.
-- **Substitutes:** Offers alternatives when an item is out of stock.
-
----
-
-## 🏗️ Project Structure
-
-```text
 Unthinkable/
-├── backend/              # FastAPI Python backend
-├── frontend/flutter_app  # Flutter source code (dart)
-├── frontend_build/       # Compiled Production Web Build
-└── README.md             # Project documentation
-```
+│
+├── backend/              # FastAPI backend
+├── frontend/flutter_app  # Flutter source code
+├── frontend_build/       # Production Flutter Web build (deployed)
+└── README.md
 
----
+🚀 Features
 
-## 🚀 Local Development
+🧠 Smart Voice Parsing (Rule-Based NLP)
 
-### 1. Backend (FastAPI + SQLite)
-The backend handles the NLP "brains," database persistence, and recommendation logic.
+The built-in NLP engine extracts:
+- Intent (Add / Remove / Search / Modify)
+- Quantity
+- Item name
+- Brand (if mentioned)
+- Price filters (e.g., “under 50”)
 
-```bash
+No external APIs are required.
+
+🛒 Shopping List Management
+
+- Add items using voice
+- Remove items using voice
+- Modify quantity
+- Manual + / − quantity buttons
+- Automatic item categorization
+- Persistent smart suggestions
+
+🔎 Advanced Voice Search
+
+Supports filtering by:
+- Brand
+- Price range
+- Keywords
+
+Examples:
+Find organic apples
+Search milk under 30
+Find Colgate toothpaste under 50
+
+💡 Intelligent Recommendations
+
+- History-based suggestions
+- Seasonal suggestions
+- Substitute suggestions
+- Persist across sessions
+
+🛠️ Backend (FastAPI)
+
+Handles:
+- NLP parsing
+- Database operations
+- Search filtering
+- Recommendation logic
+
+Run Locally:
+
 cd backend
 python -m venv .venv
-# Windows: .\.venv\Scripts\activate | Unix: source .venv/bin/activate
+.\.venv\Scripts\activate   # Windows
 pip install -r requirements.txt
 uvicorn main:app --reload
-```
-*API will be available at `http://127.0.0.1:8000`. Documentation at `/docs`.*
 
-### 2. Frontend (Flutter)
-The frontend provides the interface for voice recording and list interaction.
+API runs at:
+http://127.0.0.1:8000
 
-```bash
-cd frontend/flutter_app
-# Pass the local backend URL via dart-define
+Swagger Docs available at:
+/docs
+
+📱 Frontend (Flutter)
+
+Located at:
+frontend/flutter_app
+
+Run Locally:
 flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8000
-```
 
----
+Production Build (Web):
+flutter build web --release \
+--dart-define=API_BASE_URL=https://unthinkable-xaut.onrender.com
 
-## 📦 Deployment Architecture
+The generated output is copied into:
+frontend_build/
 
-- **Frontend:** Flutter Web (Render Static Site)
-- **Backend:** FastAPI Web Service (Render)
-- **Database:** SQLite (Embedded DB)
+This folder is deployed as a Render Static Site.
 
-### Production Build
-To prepare the app for the web, we build it locally and copy the artifacts:
+📦 Deployment Architecture
 
-```bash
-flutter build web --release --dart-define=API_BASE_URL=https://unthinkable-xaut.onrender.com
-```
+User Browser
+      ↓
+Flutter Web (Render Static Site)
+      ↓
+FastAPI Backend (Render Web Service)
+      ↓
+SQLite Database
 
-The output is located in `frontend_build/`, which serves as the root directory for the Render Static Site.
+🧪 Tech Stack
 
----
+Backend:
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- SQLite
+- Pytest
 
-## 🧪 Tech Stack
+Frontend:
+- Flutter
+- Provider (State Management)
+- Speech-to-Text
 
-- **Backend:** FastAPI, SQLAlchemy, Pydantic, SQLite, Pytest.
-- **Frontend:** Flutter (Web), Provider (State Management), Speech-to-Text.
-- **Infrastructure:** Render (Web Service + Static Site).
+⚠️ Render Free Tier Behavior
 
----
-
-> [!TIP]
-> **Optional Power-Up:** You can enable high-accuracy OpenAI parsing by setting the `OPENAI_API_KEY` in your environment variables. If not set, the built-in rule-based engine handles everything locally with zero cost!
+- Server sleeps after ~15 minutes of inactivity
+- First request may take 20–40 seconds
+- This is expected and does not affect functionality
