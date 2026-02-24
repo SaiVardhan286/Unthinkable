@@ -1,70 +1,107 @@
-# 🎙️ Voice Command Shopping Assistant
+# 🎙️ Unthinkable: Voice Command Shopping Assistant
 
-Welcome to the **Voice Command Shopping Assistant**! This project is a production-ready application that lets you manage your shopping list using simple voice commands in both **English** and **Spanish**. 
-
-Whether you're saying *"Add 2 bottles of water"* or *"Busca leche hasta 5"*, this assistant understands your intent, manages your list, and even suggests items based on your shopping habits.
+Welcome to **Unthinkable**, a production-ready, full-stack shopping assistant that simplifies your grocery runs with natural voice commands. Whether you're speaking English or Spanish, Unthinkable understands your intent, manages your list, and offers smart recommendations based on your habits.
 
 ---
 
-## 🚀 Getting Started
+## 🌐 Live Application
 
-The project is split into a **FastAPI backend** and a **Flutter mobile frontend**.
+- **Frontend (Web App):** [👉 PASTE YOUR RENDER URL HERE]
+- **Backend API Docs:** [👉 https://unthinkable-xaut.onrender.com/docs](https://unthinkable-xaut.onrender.com/docs)
 
-### 1. Backend (FastAPI + SQLite)
-The backend handles the "brains" of the operation—parsing your voice, managing the database, and generating smart recommendations.
-
-**Quick Local Setup:**
-```powershell
-cd backend
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
-*The server will start at `http://127.0.0.1:8000`. You can view the API documentation at `/docs`.*
-
-### 2. Frontend (Flutter)
-The mobile app provides a clean interface to listen to your voice and display your interactive shopping list.
-
-**Setting up the Mobile App:**
-1. Create a fresh Flutter project: `flutter create my_shopping_app`
-2. Replace the `lib` folder and `pubspec.yaml` with the ones provided in `frontend/flutter_app/`.
-3. Add the **Microphone Permission**:
-   - **Android**: Add `RECORD_AUDIO` to `AndroidManifest.xml`.
-   - **iOS**: Add `NSMicrophoneUsageDescription` to `Info.plist`.
-4. Run the app: `flutter run`
+> [!IMPORTANT]
+> **Render Free Tier Behavior:** The backend is hosted on a Render Free Tier service. If the app has been inactive for ~15 minutes, the first request may experience a "cold start" delay of 20–40 seconds. Subsequent interactions will be fast.
 
 ---
 
 ## ✨ Key Features
 
-- **Smart Voice Parsing**: A rule-based NLP engine that extracts items, quantities, brands, and price limits without needing external APIs (unless you want to use OpenAI).
-- **Multilingual Support**: Switch seamlessly between English and Spanish.
-- **Intelligent Recommendations**: 
-  - **History-based**: Suggests items you buy frequently.
-  - **Seasonal**: Recommends products based on the current month.
-  - **Substitutes**: Suggests alternatives when an item isn't in stock.
-- **Advanced Search**: Filter your search results by brand or maximum price using just your voice.
+### 🧠 Smart Voice Parsing
+Our rule-based NLP engine extracts meaningful data from your voice without the need for external APIs:
+- **Intents:** Add, Remove, Search, or Modify items.
+- **Details:** Automatically detects quantities, item names, and brands.
+- **Filters:** Understands price constraints like *"under 50"* or *"hasta 5"*.
+
+### 🛒 Seamless List Management
+- **Voice-First:** Add or remove items hands-free.
+- **Manual Control:** Adjust quantities with simple `+` / `−` buttons.
+- **Categorization:** Automatically organizes items into logical groups.
+
+### 🔎 Advanced Search
+Filter results using natural language:
+- *"Find organic apples"*
+- *"Search milk under 30"*
+- *"Busca Colgate hasta 50"*
+
+### 💡 Intelligent Recommendations
+Stay ahead of your needs with three types of smart suggestions:
+- **History-Based:** Suggests items you buy frequently.
+- **Seasonal:** Recommends products based on the current month.
+- **Substitutes:** Offers alternatives when an item is out of stock.
 
 ---
 
-## 🛠️ How it Works
+## 🏗️ Project Structure
 
-When you send a voice command:
-1. **NLP Pipeline**: The text is analyzed to detect the **Action** (Add, Remove, Search, Modify), the **Item**, and any specific **Filters** (like "under $5").
-2. **Database Tracking**: Items are stored in a local SQLite database using SQLAlchemy.
-3. **Smart Logic**: The system updates your user history with every interaction to make better suggestions next time you open the app.
+```text
+Unthinkable/
+├── backend/              # FastAPI Python backend
+├── frontend/flutter_app  # Flutter source code (dart)
+├── frontend_build/       # Compiled Production Web Build
+└── README.md             # Project documentation
+```
+
+---
+
+## 🚀 Local Development
+
+### 1. Backend (FastAPI + SQLite)
+The backend handles the NLP "brains," database persistence, and recommendation logic.
+
+```bash
+cd backend
+python -m venv .venv
+# Windows: .\.venv\Scripts\activate | Unix: source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+*API will be available at `http://127.0.0.1:8000`. Documentation at `/docs`.*
+
+### 2. Frontend (Flutter)
+The frontend provides the interface for voice recording and list interaction.
+
+```bash
+cd frontend/flutter_app
+# Pass the local backend URL via dart-define
+flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8000
+```
+
+---
+
+## 📦 Deployment Architecture
+
+- **Frontend:** Flutter Web (Render Static Site)
+- **Backend:** FastAPI Web Service (Render)
+- **Database:** SQLite (Embedded DB)
+
+### Production Build
+To prepare the app for the web, we build it locally and copy the artifacts:
+
+```bash
+flutter build web --release --dart-define=API_BASE_URL=https://unthinkable-xaut.onrender.com
+```
+
+The output is located in `frontend_build/`, which serves as the root directory for the Render Static Site.
 
 ---
 
 ## 🧪 Tech Stack
 
-- **Backend**: FastAPI, SQLAlchemy, Pydantic, Pytest.
-- **Frontend**: Flutter, Provider (State Management), Speech-to-Text.
-- **Database**: SQLite (Small, fast, and zero-config).
+- **Backend:** FastAPI, SQLAlchemy, Pydantic, SQLite, Pytest.
+- **Frontend:** Flutter (Web), Provider (State Management), Speech-to-Text.
+- **Infrastructure:** Render (Web Service + Static Site).
 
 ---
 
 > [!TIP]
-> **Optional Power-Up**: You can enable high-accuracy OpenAI parsing by setting the `OPENAI_API_KEY` in your environment variables. If not set, the built-in rule-based engine handles everything locally!
-
+> **Optional Power-Up:** You can enable high-accuracy OpenAI parsing by setting the `OPENAI_API_KEY` in your environment variables. If not set, the built-in rule-based engine handles everything locally with zero cost!
